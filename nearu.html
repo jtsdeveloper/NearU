@@ -11,18 +11,22 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
   </head>
-
   <body>
-      <div id="loc">
-          Searching for your location...
+    <div class="container">
+      <header id="header"></header>
+      <div class="content">
+        <div id="time" class="col-left"></div>
+        <div id="loc" class="col-right"></div>
+        <div id="map"></div>
+        <div id="restaurant"></div>
+        <div id= "test"></div>
       </div>
-      <div id="map">
-      </div>
-      <div id="weather">
-      </div>
-      <script src="js/modernizr.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-      <script src="https://maps.googleapis.com/maps/api/js"></script>
-      <script src="js/main.js"></script>
+    </div>
+
+  <script src="js/modernizr.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+  <script src="js/main.js"></script>
+
   </body>
 </html>

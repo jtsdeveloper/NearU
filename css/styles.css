@@ -1,6 +1,48 @@
-/*styles.css for API project*/
+/*Near U - style.css*/
+
+.container{
+  width: 100%;
+  max-width: 760px;
+  background-color: #666666;
+  margin: 0 auto;
+}
+
+header{
+  height: 5em;
+  background-color: yellow;
+  margin-bottom: .25em;
+}
+
+.content{
+}
+
+.col-left{
+  margin-right: 5px;
+  width: 47%;
+  float: left;
+  text-align: center;
+}
+
+.col-right{
+  margin-left: 5px;
+  width: 47%;
+  float: right;
+  text-align: center;
+}
+
+#time{
+  background-color:blue;
+  height: 200px;
+  margin-bottom: .5em;
+}
+
+#loc{
+  background-color: red;
+  height: 200px;
+  margin-bottom: .5em;
+}
 
 #map{
-    width: 500px;
-    height: 400px;
+  width: 100%;
+  height: 300px;
 }

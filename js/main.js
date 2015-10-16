@@ -1,5 +1,29 @@
 /* main.js */
 
+/*---------Get Current (local) Time ----------*/
+
+window.onload = function(){
+  startTime();
+}
+
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    if (h>12){
+      h = h-12;
+    };
+    document.getElementById('time').innerHTML =
+    h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
 /*---------Get Current Location-------*/
 
 var currentloc = document.getElementById('loc');
@@ -28,15 +52,52 @@ function fail(msg){
   console.log(msg.code);
 }
 
-/*-------Load Google Map --------*/
-
+/*-------Load Google Map & 3 Closest Restaurants List --------*/
+var usermap, currentLoc, service, placeList, results, restaurants;;
 function initialize() {
-  var mapCanvas = document.getElementById('map');
+
+  currentLoc = new google.maps.LatLng(latitude, longitude); //store location in variable
+
   var mapOptions = {
-    center: new google.maps.LatLng(latitude, longitude),
-    zoom: 8,
+    center: currentLoc,
+    zoom: 12,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
-  var map = new google.maps.Map(mapCanvas, mapOptions)
+
+  usermap = new google.maps.Map(document.getElementById('map'), mapOptions); //create the map
+
+  var userLoc = new google.maps.Marker({         // Create a new marker
+    position: currentLoc,                        // Set its position
+    map: usermap,
+  });
+
+  var request = {                               // Request location
+    location: currentLoc,
+    radius: '500',
+    query: 'restaurant'
+  };
+
+  service = new google.maps.places.PlacesService(usermap); // Get place info
+  service.textSearch(request, callback);                   //Send place info to callback function
+
+  restaurants = "";
+  function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < 3; i++) {
+        console.log(results[i].name);                            //Test results
+        restaurants += '<p>' + results[i].name + '<br>';        //List closest 3 restaurants
+      }
+      placeList = document.getElementById('restaurant');
+      placeList.innerHTML = restaurants;                        //Write the restaurants to the page
+    }else {
+      console.log("error");
+    }
+  }
 }
-google.maps.event.addDomListener(window, 'load', initialize);
+
+google.maps.event.addDomListener(window, 'load', initialize); //Load the map
+google.maps.event.addDomListener(window, "resize", function() {
+ var newcenter = usermap.getCenter();
+ google.maps.event.trigger(usermap, "resize");
+ usermap.setCenter(newcenter);
+});
