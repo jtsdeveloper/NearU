@@ -24,7 +24,7 @@ function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
 }
-/*---------Get Current Location-------*/
+/*---------Get Current Location by HTLM5 geolocation-------*/
 
 var currentloc = document.getElementById('loc');
 var msg = 'Sorry, we were unable to get your location.';
@@ -52,8 +52,15 @@ function fail(msg){
   console.log(msg.code);
 }
 
-/*-------Load Google Map & 3 Closest Restaurants List --------*/
-var usermap, currentLoc, service, placeList, results, restaurants;;
+/*-------Load & Display Current City--------*/
+
+$(function ($) {
+  var city = geoplugin_city();
+  $("#city").html("<h2> City: " + city + "</h2>");
+});
+
+/*-------Load Google Map & Textsearch 3 Closest Restaurants--------*/
+var usermap, geocoder, currentLoc, service, placeList, results, restaurants;
 function initialize() {
 
   currentLoc = new google.maps.LatLng(latitude, longitude); //store location in variable
@@ -74,7 +81,7 @@ function initialize() {
   var request = {                               // Request location
     location: currentLoc,
     radius: '500',
-    query: 'restaurant'
+    query: 'restaurants'
   };
 
   service = new google.maps.places.PlacesService(usermap); // Get place info
@@ -84,7 +91,7 @@ function initialize() {
   function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       for (var i = 0; i < 3; i++) {
-        console.log(results[i].name);                            //Test results
+        console.log(results[i].name);//Test results
         restaurants += '<p>' + results[i].name + '<br>';        //List closest 3 restaurants
       }
       placeList = document.getElementById('restaurant');
@@ -96,7 +103,8 @@ function initialize() {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize); //Load the map
-google.maps.event.addDomListener(window, "resize", function() {
+
+google.maps.event.addDomListener(window, "resize", function() { //resize functionality
  var newcenter = usermap.getCenter();
  google.maps.event.trigger(usermap, "resize");
  usermap.setCenter(newcenter);

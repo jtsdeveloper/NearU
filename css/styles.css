@@ -1,10 +1,7 @@
 /*Near U - style.css*/
 
-.container{
-  width: 100%;
-  max-width: 760px;
-  background-color: #666666;
-  margin: 0 auto;
+body{
+  background-color: #111;
 }
 
 header{
@@ -13,36 +10,49 @@ header{
   margin-bottom: .25em;
 }
 
-.content{
+.container{
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-.col-left{
-  margin-right: 5px;
-  width: 47%;
+.section{
+  min-height: 200px;
+  width: 100%;
+  margin-bottom: 10px;
+  clear: both;
+}
+
+.section-small{
+  min-height: 150px;
+  width: 50%;
   float: left;
-  text-align: center;
 }
 
-.col-right{
-  margin-left: 5px;
-  width: 47%;
+.section-small + .section-small{
+  width: 50%;
   float: right;
-  text-align: center;
+  clear: right;
+}
+
+#city{
+  background-color: white;
 }
 
 #time{
   background-color:blue;
-  height: 200px;
-  margin-bottom: .5em;
 }
 
 #loc{
   background-color: red;
-  height: 200px;
-  margin-bottom: .5em;
+}
+
+#weather{
+  background-color: green;
 }
 
 #map{
-  width: 100%;
-  height: 300px;
+}
+
+#restaurant{
+  background-color: pink;
 }
