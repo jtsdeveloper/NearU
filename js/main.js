@@ -28,7 +28,8 @@ function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
 }
-/*---------Get Current Location by HTLM5 geolocation-------*/
+/*---------Get Current Location by HTLM5 geolocation (AND WALMART LOCATION)-------*/
+var latitude, longitude;
 
 var options = {
   enableHighAccuracy: true,
@@ -36,17 +37,31 @@ var options = {
   maximumAge: 0
 };
 
-var pos, crd, latitude, longitude;
 function success(pos) {
 
   crd = pos.coords;
-  latitude = crd.latitude;
-  longitude = crd.longitude;
+  latitude = pos.coords.latitude;
+  longitude = pos.coords.longitude;
 
   console.log('Your current position is:');
-  console.log('Latitude : ' + crd.latitude);
-  console.log('Longitude: ' + crd.longitude);
+  console.log('Latitude : ' + latitude);
+  console.log('Longitude: ' + longitude);
   console.log('More or less ' + crd.accuracy + ' meters.');
+
+  var walurl = "http://api.walmartlabs.com/v1/stores?apiKey=e42qfe3q4f7uqqbf9pgezg7g&lat=" + latitude + "&lon=" + longitude + "&format=json";
+
+  $(function(){
+
+    $.ajax({
+      type: "GET",
+      dataType: "jsonp",
+      url: walurl,
+      timeout: 2000,
+      success: function (data){
+        $('#walmart').html(data[0].streetAddress);
+      }
+    })
+  });
 };
 
 function error(err) {
@@ -147,4 +162,4 @@ google.maps.event.addDomListener(window, "resize", function() { //resize functio
  usermap.setCenter(newcenter);
 });
 
-/*-------------Closest Walmart Address----------------*/
+/* Find Nearest Walmart */
