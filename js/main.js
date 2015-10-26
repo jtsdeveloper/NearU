@@ -29,6 +29,7 @@ function checkTime(i) {
     return i;
 }
 /*---------Get Current Location by HTLM5 geolocation (AND WALMART LOCATION)-------*/
+
 var latitude, longitude;
 
 var options = {
@@ -58,7 +59,11 @@ function success(pos) {
       url: walurl,
       timeout: 2000,
       success: function (data){
-        $('#walmart').html(data[0].streetAddress);
+        $('#walmart').html(
+          "<h3>Closest Walmart To You</h3>" +
+          "<h1>" + data[0].streetAddress + "<br>" +
+          data[0].city + ", " + data[0].stateProvCode + "</h1>"
+        );
       }
     })
   });
@@ -70,11 +75,12 @@ function error(err) {
 
 navigator.geolocation.getCurrentPosition(success, error, options);
 
+
 /*-------Load & Display Current City--------*/
 
 $(function ($) {
   var city = geoplugin_city();
-  $("#city").html("<h3> Current City</h3>" + "<h1>" + city + "</h1>" + "<p>" + "(Accuracy varies)</p>");
+  $("#city").html("<h3>Current City</h3>" + "<h1>" + city + "</h1>" + "<p>" + "(Accuracy varies)</p>");
 });
 
 /*--------Get Current Weather for Current Location (Simple Weather jQuery Plugin)-------------*/
@@ -92,8 +98,8 @@ function loadWeather(location, woeid) {
     unit: 'f',
     success: function(weather) {
       html = '<h3>Current Weather</h3>';
-      html += '<h2>Current Temp: <i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
-      html += '<h2>Conditions: '+ weather.currently + '</h2>';
+      html += '<h1>Current Temp: <i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h1>';
+      html += '<h1>Conditions: '+ weather.currently + '</h1>';
 
       $("#weather").html(html);
     },
@@ -141,7 +147,7 @@ function initialize() {
   restaurants = "";
   function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
-      restaurants += "<h3>Closest Restaurants</h3>";
+      restaurants += "<h3>Closest Restaurants to You</h3>";
        for (var i = 0; i < results.length && i < 3; i++) {
         console.log(results[i].name);//Test results
         restaurants += '<h4>' + results[i].name + '</h4>'+ '<p>' + results[i].formatted_address + '<br>';        //List closest 3 restaurants
@@ -161,5 +167,3 @@ google.maps.event.addDomListener(window, "resize", function() { //resize functio
  google.maps.event.trigger(usermap, "resize");
  usermap.setCenter(newcenter);
 });
-
-/* Find Nearest Walmart */
