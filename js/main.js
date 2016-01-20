@@ -6,7 +6,7 @@ window.onload = function(){
   startTime();
 }
 
-function startTime() {
+function startTime() {                          // Load current local time
     var today = new Date();
     var h = today.getHours();
     var m = today.getMinutes();
@@ -21,7 +21,7 @@ function startTime() {
     };
 
     document.getElementById('time').innerHTML =
-    "<h3>Current Time</h3>" + "<h1>" + h + ":" + m + ":" + s + "</h1>";
+    "<h3>Current Time</h3>" + "<h1>" + h + ":" + m + ":" + s + "</h1>"; // Display current local time
     var t = setTimeout(startTime, 500);
 }
 function checkTime(i) {
@@ -44,22 +44,24 @@ function success(pos) {
   latitude = pos.coords.latitude;
   longitude = pos.coords.longitude;
 
+  /*                                                      //Test positions
   console.log('Your current position is:');
   console.log('Latitude : ' + latitude);
   console.log('Longitude: ' + longitude);
-  console.log('More or less ' + crd.accuracy + ' meters.');
+  console.log('More or less ' + crd.accuracy + ' meters.'); */
 
+  // Insert latitude and longitude paramters into Walmart api url
   var walurl = "http://api.walmartlabs.com/v1/stores?apiKey=e42qfe3q4f7uqqbf9pgezg7g&lat=" + latitude + "&lon=" + longitude + "&format=json";
 
   $(function(){
 
     $.ajax({
       type: "GET",
-      dataType: "jsonp",
+      dataType: "jsonp",                                  //Retrieve JSONP
       url: walurl,
       timeout: 2000,
       success: function (data){
-        $('#walmart').html(
+        $('#walmart').html(                               //Display closest Walmart
           "<h3>Closest Walmart To You</h3>" +
           "<h1>" + data[0].streetAddress + "<br>" +
           data[0].city + ", " + data[0].stateProvCode + "</h1>"
@@ -73,12 +75,12 @@ function error(err) {
   console.warn('ERROR(' + err.code + '): ' + err.message);
 };
 
-navigator.geolocation.getCurrentPosition(success, error, options);
+navigator.geolocation.getCurrentPosition(success, error, options);    //HTML5 Geolocation API
 
 
 /*-------Load & Display Current City--------*/
 
-$(function ($) {
+$(function ($) {                                                     //Display current city based on IP address with GeoPlugin
   var city = geoplugin_city();
   $("#city").html("<h3>Current City</h3>" + "<h1>" + city + "</h1>" + "<p>" + "(Accuracy varies)</p>");
 });
@@ -91,12 +93,12 @@ $(function() {
   });
 });
 
-function loadWeather(location, woeid) {
+function loadWeather(location, woeid) {                       // Use simpleweather jQuery plugin
   $.simpleWeather({
     location: location,
     woeid: woeid,
     unit: 'f',
-    success: function(weather) {
+    success: function(weather) {                             // Display current weather
       html = '<h3>Current Weather</h3>';
       html += '<h1>Current Temp: <i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h1>';
       html += '<h1>Conditions: '+ weather.currently + '</h1>';
